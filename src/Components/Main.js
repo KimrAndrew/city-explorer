@@ -19,7 +19,7 @@ export default class Main extends Component {
 
     assembleLocationUrl = () => `${this.base}${this.key}&q=${this.state.searchText}${this.format}`;
 
-    //assembleMapUrl = () => `https://maps.locationiq.com/v3/staticmap?${this.key}center=${this.state.cityData.lon},${this.state.cityData.lat}zoom=9`
+    assembleMapUrl = (cityObj) => `https://maps.locationiq.com/v3/staticmap?${this.key}&center=${cityObj.lat},${cityObj.lon}&zoom=10`;
 
     changeHandler = event => {
         this.setState({searchText: event.target.value});
@@ -28,29 +28,31 @@ export default class Main extends Component {
     searchHandler = async () => {
         this.setState({
             searchQuery: this.state.searchText,
-            locationUrl:  await this.assembleLocationUrl()
-            //mapUrl: this.assembleMapUrl()
+            locationUrl:  await this.assembleLocationUrl(),
         });
-        console.log(this.state.locationUrl);
+        //console.log(this.state.locationUrl);
         let cityData = await axios.get(this.state.locationUrl);
         cityData = cityData.data[0];
         this.setState({cityData: cityData});
-        //this.setState({map: this.getMapData()});
+        let mapUrl = await this.assembleMapUrl(this.state.cityData);
+        this.setState({mapUrl: mapUrl});
+        console.log(this.state.mapUrl);
         console.log(this.state.cityData);
         
     }
 
     //getCityData = await axios.get(this.state.locationUrl);
 
-    getMapData = async () => await axios.get(this.state.mapUrl);
+    //getMapData = async () => await axios.get(this.state.mapUrl);
     render() {
         return(
             <>
                 <input onChange={this.changeHandler} value={this.state.searchText}></input>
-                <p>{this.state.cityData.name}</p>
-                <p>{this.state.cityData.lon}</p>
-                <p>{this.state.cityData.latr}</p>
                 <button onClick={this.searchHandler}>Search</button>
+                <p>name:{this.state.cityData.display_name}</p>
+                <p>lon:{this.state.cityData.lon}</p>
+                <p>lat:{this.state.cityData.lat}</p>
+                <img src={this.state.mapUrl} alt='map'/>
             </>
         );
     }
