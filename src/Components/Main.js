@@ -5,15 +5,9 @@ import Card from 'react-bootstrap/Card';
 export default class Main extends Component {
     constructor(props) {
         super(props);
-        this.base = 'https://us1.locationiq.com/v1/search.php?';
-        this.key = `key=${process.env.REACT_APP_LOCATION_KEY}`;
-        this.format=`&format=json`;
 
         this.state = {
             searchText: '',
-            searchQuery: '',
-            locationUrl:'',
-            mapUrl:'',
             cityData: {},
             map: ''
         }
@@ -33,7 +27,7 @@ export default class Main extends Component {
         console.log(cityData);
         this.setState({
             cityData: cityData,
-            mapUrl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${cityData.lat},${cityData.lon}&zoom=10`
+            map: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${cityData.lat},${cityData.lon}&zoom=10`
         });
     }
 
@@ -46,7 +40,7 @@ export default class Main extends Component {
                     <Card.Text>name: {this.state.cityData.display_name}</Card.Text>
                     <Card.Text>lon: {this.state.cityData.lon}</Card.Text>
                     <Card.Text>lat: {this.state.cityData.lat}</Card.Text>
-                    <Card.Img variant='bottom' src={this.state.mapUrl} alt='map'/>
+                    <Card.Img variant='bottom' src={this.state.map} alt='map'/>
                 </Card>
             </>
         );
