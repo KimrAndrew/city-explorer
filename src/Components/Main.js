@@ -1,6 +1,7 @@
 import { Component } from "react";
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
 
 export default class Main extends Component {
     constructor(props) {
@@ -33,15 +34,17 @@ export default class Main extends Component {
 
     render() {
         return(
-            <>
+            <>  
                 <input onChange={this.changeHandler} value={this.state.searchText}></input>
-                <button onClick={this.searchHandler}>Search</button>
-                <Card style={{ width: '18 rem' }}>
+                <button onClick={this.searchHandler}>Explore!</button>
+                <Container>
+                <Card style={{ maxWidth: '18rem' }}>
                     <Card.Text>name: {this.state.cityData.display_name}</Card.Text>
                     <Card.Text>lon: {this.state.cityData.lon}</Card.Text>
                     <Card.Text>lat: {this.state.cityData.lat}</Card.Text>
-                    <Card.Img variant='bottom' src={this.state.map} alt='map'/>
+                    <Card.Img variant='bottom' src={this.state.map} alt='map' />
                 </Card>
+                </Container>
             </>
         );
     }
