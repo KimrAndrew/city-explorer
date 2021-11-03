@@ -28,24 +28,15 @@ export default class Main extends Component {
     };
 
     searchHandler = async () => {
-        this.setState({
-            searchQuery: this.state.searchText,
-            locationUrl:  await this.assembleLocationUrl(),
-        });
-        //console.log(this.state.locationUrl);
-        let cityData = await axios.get(this.state.locationUrl);
+        let cityData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${this.state.searchText}&format=json`);
         cityData = cityData.data[0];
-        this.setState({cityData: cityData});
-        let mapUrl = await this.assembleMapUrl(this.state.cityData);
-        this.setState({mapUrl: mapUrl});
-        //console.log(this.state.mapUrl);
-        //console.log(this.state.cityData);
-        
+        console.log(cityData);
+        this.setState({
+            cityData: cityData,
+            mapUrl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${cityData.lat},${cityData.lon}&zoom=10`
+        });
     }
 
-    //getCityData = await axios.get(this.state.locationUrl);
-
-    //getMapData = async () => await axios.get(this.state.mapUrl);
     render() {
         return(
             <>
