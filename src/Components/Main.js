@@ -36,11 +36,15 @@ export default class Main extends Component {
             console.log(cityData.lat);
             console.log(cityData.lon);
             let weatherData = await axios.get(`${process.env.REACT_APP_API}weather/?lat=${cityData.lat}&lon=${cityData.lon}`);
-            //console.log(weatherData);
+            let weatherList = weatherData.data.map(el => {
+                return <li> {`date: ${el.date} description: ${el.description}`}</li>
+            });
+            console.log(weatherData);
             //console.log(cityData);
             this.setState({
                 cityData: cityData,
-                map: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${cityData.lat},${cityData.lon}&zoom=10`
+                map: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${cityData.lat},${cityData.lon}&zoom=10`,
+                weatherList: weatherList
             });
 
         } catch(error) {
@@ -61,6 +65,7 @@ export default class Main extends Component {
                     <Card.Text>lon: {this.state.cityData.lon}</Card.Text>
                     <Card.Text>lat: {this.state.cityData.lat}</Card.Text>
                     <Card.Img variant='bottom' src={this.state.map} alt='map' />
+                    <ul>{this.state.weatherList}</ul>
                 </Card>
                 }
                 {
