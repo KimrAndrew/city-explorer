@@ -11,6 +11,7 @@ export default class Main extends Component {
             searchText: '',
             cityData: {},
             map: '',
+            weatherList: <></>,
             error: false
         }
     }
@@ -32,11 +33,16 @@ export default class Main extends Component {
         try {
             let cityData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${this.state.searchText}&format=json`);
             cityData = cityData.data[0];
-            console.log(cityData);
+            console.log(cityData.lat);
+            console.log(cityData.lon);
+            let weatherData = await axios.get(`${process.env.REACT_APP_API}weather/?lat=${cityData.lat}&lon=${cityData.lon}`);
+            //console.log(weatherData);
+            //console.log(cityData);
             this.setState({
                 cityData: cityData,
                 map: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${cityData.lat},${cityData.lon}&zoom=10`
             });
+
         } catch(error) {
             this.setState({error:true});
         }
