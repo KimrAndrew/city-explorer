@@ -39,12 +39,14 @@ export default class Main extends Component {
             let weatherList = weatherData.data.map(el => {
                 return <li> {`date: ${el.date} description: ${el.description}`}</li>
             });
+            let movieData = await axios.get(`${process.env.REACT_APP_API}movies/?city_name=${cityData.city_name}`);
             console.log(weatherData);
             //console.log(cityData);
             this.setState({
                 cityData: cityData,
                 map: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_KEY}&center=${cityData.lat},${cityData.lon}&zoom=10`,
-                weatherList: weatherList
+                weatherList: weatherList,
+                movieList: movieData
             });
 
         } catch(error) {
@@ -57,6 +59,7 @@ export default class Main extends Component {
             <>  
                 <input onChange={this.changeHandler} value={this.state.searchText}></input>
                 <button onClick={this.searchHandler}>Explore!</button>
+                <button onClick={console.log(this.state.movieList)}></button>
                 <Container>
                 {
                 this.state.cityData.display_name &&
