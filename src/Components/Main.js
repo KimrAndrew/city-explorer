@@ -59,7 +59,7 @@ export default class Main extends Component {
             <>  
                 <input onChange={this.changeHandler} value={this.state.searchText}></input>
                 <button onClick={this.searchHandler}>Explore!</button>
-                <button onClick={console.log(this.state.movieList)}></button>
+                <button onClick={console.log(this.state.movieList)}>Movies</button>
                 <Container>
                 {
                 this.state.cityData.display_name &&
